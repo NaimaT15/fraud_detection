@@ -1,0 +1,20 @@
+artifact_path: creditcard_logistic_regression_model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.9
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.5.2
+mlflow_version: 2.17.0
+model_size_bytes: 965
+model_uuid: a75b167faafb4912a1d1d3a382710aa3
+run_id: 16339eb48f2d43e6af7bcbf4cf195e58
+utc_time_created: '2024-10-27 13:09:56.972097'

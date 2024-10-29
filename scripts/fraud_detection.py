@@ -5,6 +5,8 @@ import seaborn as sns
 import ipaddress
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+import shap
+import matplotlib.pyplot as plt
 def ip_to_int(ip_string):
     """Convert an IP address to its integer representation."""
     return int(ipaddress.ip_address(ip_string))
@@ -269,3 +271,48 @@ def one_hot_encode_features(df, columns):
     """
     df = pd.get_dummies(df, columns=columns, drop_first=True)  # drop_first=True to avoid multicollinearity
     return df
+
+import shap
+import matplotlib.pyplot as plt
+
+def create_shap_explanation(model, X_train, X_test, feature_names, model_name):
+    """
+    Generate SHAP explanations for a model and display key plots.
+    """
+    # Initialize SHAP explainer
+    explainer = shap.Explainer(model, X_train)
+    
+    # Generate SHAP values
+    shap_values = explainer(X_test)
+    
+    # Summary plot
+    plt.title(f"SHAP Summary Plot for {model_name}")
+    shap.summary_plot(shap_values, X_test, feature_names=feature_names)
+    
+    # Force plot for a single instance
+    shap.initjs()
+    plt.title(f"SHAP Force Plot for {model_name} - Instance 0")
+    shap.force_plot(explainer.expected_value, shap_values[0, :], feature_names=feature_names)
+from lime.lime_tabular import LimeTabularExplainer
+
+def create_lime_explanation(model, X_train, X_test, feature_names, model_name, instance_index=0, num_features=10):
+    """
+    Generate LIME explanations for a specific instance.
+    """
+    explainer = LimeTabularExplainer(
+        X_train,
+        feature_names=feature_names,
+        class_names=['Non-Fraud', 'Fraud'],
+        mode='classification'
+    )
+    
+    # Generate explanation for the specified instance
+    exp = explainer.explain_instance(
+        X_test[instance_index],
+        model.predict_proba,
+        num_features=num_features
+    )
+    
+    # Display explanation
+    print(f"LIME Explanation for {model_name} - Instance {instance_index}")
+    exp.show_in_notebook(show_table=True)

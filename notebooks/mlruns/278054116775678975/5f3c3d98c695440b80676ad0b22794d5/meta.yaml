@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/Naim/Fraud-Detection/notebooks/mlruns/278054116775678975/5f3c3d98c695440b80676ad0b22794d5/artifacts
+end_time: 1729842156420
+entry_point_name: ''
+experiment_id: '278054116775678975'
+lifecycle_stage: active
+run_id: 5f3c3d98c695440b80676ad0b22794d5
+run_name: fraud-data Logistic Regression
+run_uuid: 5f3c3d98c695440b80676ad0b22794d5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729842153095
+status: 3
+tags: []
+user_id: Naim
