@@ -1,0 +1,20 @@
+artifact_path: fraud-data_logistic_regression_model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.9
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.5.2
+mlflow_version: 2.17.0
+model_size_bytes: 861
+model_uuid: b2399f34cbf5450aa87d14d302f446e3
+run_id: 5f3c3d98c695440b80676ad0b22794d5
+utc_time_created: '2024-10-25 07:42:33.332954'

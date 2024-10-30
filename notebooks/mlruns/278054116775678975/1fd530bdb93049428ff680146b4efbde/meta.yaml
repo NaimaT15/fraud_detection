@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/Naim/Fraud-Detection/notebooks/mlruns/278054116775678975/1fd530bdb93049428ff680146b4efbde/artifacts
+end_time: 1729840724725
+entry_point_name: ''
+experiment_id: '278054116775678975'
+lifecycle_stage: active
+run_id: 1fd530bdb93049428ff680146b4efbde
+run_name: creditcard Logistic Regression
+run_uuid: 1fd530bdb93049428ff680146b4efbde
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729840713323
+status: 3
+tags: []
+user_id: Naim
