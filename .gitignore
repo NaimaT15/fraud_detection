@@ -1,5 +1,5 @@
 data
 venv
 notebooks/Enhanced_Fraud_Data.csv
-notebooks/credit_model.pkl
 notebooks/fraud_model.pkl
+notebooks/credit_model.pkl
