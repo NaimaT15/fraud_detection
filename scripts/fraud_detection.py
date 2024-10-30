@@ -1,4 +1,5 @@
 
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -273,6 +274,7 @@ def one_hot_encode_features(df, columns):
     return df
 
 import shap
+
 import matplotlib.pyplot as plt
 
 def create_shap_explanation(model, X_train, X_test, feature_names, model_name):
@@ -280,7 +282,7 @@ def create_shap_explanation(model, X_train, X_test, feature_names, model_name):
     Generate SHAP explanations for a model and display key plots.
     """
     # Initialize SHAP explainer
-    explainer = shap.Explainer(model, X_train)
+    explainer = shap.Explainer(model, X_train, check_additivity=False)
     
     # Generate SHAP values
     shap_values = explainer(X_test)
@@ -288,11 +290,25 @@ def create_shap_explanation(model, X_train, X_test, feature_names, model_name):
     # Summary plot
     plt.title(f"SHAP Summary Plot for {model_name}")
     shap.summary_plot(shap_values, X_test, feature_names=feature_names)
+    plt.show()
+    
+    # Check if expected_value is scalar or array
+    expected_value = explainer.expected_value
+    if isinstance(expected_value, list) or isinstance(expected_value, np.ndarray):
+        # Use the first value if it's an array
+        expected_value = expected_value[0]
     
     # Force plot for a single instance
     shap.initjs()
     plt.title(f"SHAP Force Plot for {model_name} - Instance 0")
-    shap.force_plot(explainer.expected_value, shap_values[0, :], feature_names=feature_names)
+    shap.force_plot(expected_value, shap_values.values[0, :], X_test.iloc[0, :], matplotlib=True)
+    plt.show()
+    
+    # Dependence plot for a specific feature (example: feature_names[0])
+    plt.title(f"SHAP Dependence Plot for {model_name} - {feature_names[0]}")
+    shap.dependence_plot(0, shap_values.values, X_test, feature_names=feature_names)
+    plt.show()
+
 from lime.lime_tabular import LimeTabularExplainer
 
 def create_lime_explanation(model, X_train, X_test, feature_names, model_name, instance_index=0, num_features=10):
@@ -300,7 +316,7 @@ def create_lime_explanation(model, X_train, X_test, feature_names, model_name, i
     Generate LIME explanations for a specific instance.
     """
     explainer = LimeTabularExplainer(
-        X_train,
+        X_train.values,
         feature_names=feature_names,
         class_names=['Non-Fraud', 'Fraud'],
         mode='classification'
@@ -308,7 +324,7 @@ def create_lime_explanation(model, X_train, X_test, feature_names, model_name, i
     
     # Generate explanation for the specified instance
     exp = explainer.explain_instance(
-        X_test[instance_index],
+        X_test.values[instance_index],
         model.predict_proba,
         num_features=num_features
     )
